@@ -60,33 +60,18 @@ var obstaculos_y = new Array();
 var lista = new Array();
 var meta_x;
 var meta_y;
+var current_level=1;
+
+function inicializar()
+{
+  pos=0;
+  initLevel(current_level);
+}
+
 function myFunction(lista)
 {
-  meta_x=4;
-  meta_y=4;
-
-  //lista[0] = "derecha";
-  //lista[1] = "derecha";
-  //lista[2] = "abajo";
-  //lista[3] = "abajo";
-  //lista[4] = "abajo";
-  //lista[5] = "izquierda";
-
-  //lista[4] = "derecha";
-  //lista[5] = "derecha";
-  //lista[6] = "abajo";
-  //lista[7] = "abajo";
-
-
-  obstaculos_x[0] = 2;
-  obstaculos_y[0] = 3;
-
-  obstaculos_x[1] = 1;
-  obstaculos_y[1] = 1;
-
-  limpiarPantalla();
-
-  var onUpdate=setInterval(
+    inicializar();
+    var onUpdate=setInterval(
     function()
     {
       pintarCuadro("vacio",position_x,position_y);
@@ -126,6 +111,101 @@ function myFunction(lista)
       }
     }
   ,500);
+}
+
+function initLevel(level)
+{
+  if(level==1)
+  {
+    position_x=2;
+    position_y=0;
+		meta_x=2;
+		meta_y=2;
+  }
+
+  if(level==2)
+  {
+    position_x=0;
+    position_y=0;
+		meta_x=2;
+		meta_y=2;
+
+    obstaculos_x[0] = 1;
+    obstaculos_y[0] = 2;
+
+    obstaculos_x[1] = 3;
+    obstaculos_y[1] = 2;
+  }
+
+  if(level==3)
+  {
+    position_x=2;
+    position_y=2;
+		meta_x=4;
+		meta_y=4;
+
+    obstaculos_x[0] = 1;
+    obstaculos_y[0] = 0;
+
+    obstaculos_x[1] = 1;
+    obstaculos_y[1] = 2;
+
+    obstaculos_x[2] = 3;
+    obstaculos_y[2] = 2;
+
+    obstaculos_x[3] = 3;
+    obstaculos_y[3] = 4;
+  }
+
+  if(level==4)
+  {
+    position_x=2;
+    position_y=2;
+		meta_x=3;
+		meta_y=4;
+
+    obstaculos_x[0] = 2;
+    obstaculos_y[0] = 0;
+
+    obstaculos_x[1] = 1;
+    obstaculos_y[1] = 1;
+
+    obstaculos_x[2] = 3;
+    obstaculos_y[2] = 3;
+
+    obstaculos_x[3] = 2;
+    obstaculos_y[3] = 4;
+  }
+
+  if(level==5)
+  {
+    position_x=2;
+    position_y=0;
+		meta_x=2;
+		meta_y=2;
+
+    obstaculos_x[0] = 1;
+    obstaculos_y[0] = 1;
+
+    obstaculos_x[1] = 2;
+    obstaculos_y[1] = 1;
+
+    obstaculos_x[2] = 3;
+    obstaculos_y[2] = 1;
+
+    obstaculos_x[3] = 1;
+    obstaculos_y[3] = 2;
+
+    obstaculos_x[4] = 3;
+    obstaculos_y[4] = 2;
+
+    obstaculos_x[5] = 1;
+    obstaculos_y[5] = 3;
+
+    obstaculos_x[6] = 3;
+    obstaculos_y[6] = 3;
+  }
+  limpiarPantalla();
 }
 
 function limpiarPantalla()
