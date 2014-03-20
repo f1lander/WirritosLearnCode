@@ -2,33 +2,32 @@ window.addEventListener("load", init, false);
 
 
 function init(){
-     
+    inicializar();
 }
 
 function leerComandos(){
+    $('#dangerMsj').hide();
     var lines = $('#comandos').val().split('\n');
     for(var i = 0;i < lines.length;i++){
         //code here using lines[i] which will give you each line
-        if(validarComando(lines[i])){
-            if (lines[i] == "moverderecha();")
-                lista[i] = "derecha";
-            if (lines[i] == "moverizquierda();")
-                lista[i] = "izquierda";
-            if (lines[i] == "moverarriba();")
-                lista[i] = "arriba"
-            if (lines[i] == "moverabajo();")
-                lista[i] = "abajo";
-        }   
-        else
-        {
-            return;
-        }
+        if (lines[i].trim() != "")
+            
+            if (validarComando(lines[i].trim())) {
+                if (lines[i] == "moverderecha();")
+                    lista[i] = "derecha";
+                if (lines[i] == "moverizquierda();")
+                    lista[i] = "izquierda";
+                if (lines[i] == "moverarriba();")
+                    lista[i] = "arriba"
+                if (lines[i] == "moverabajo();")
+                    lista[i] = "abajo";
+            }
+            else {
+                return;
+            }
+        
     }
     myFunction(lista);
-}
-
-function run(){
-    
 }
 
 function validarComando(instruccion){
@@ -48,6 +47,7 @@ function validarComando(instruccion){
        return true;
 
    $('#dangerMsj').show();
+   return false;
 }
 
 var pos=0;
@@ -71,7 +71,7 @@ function inicializar()
 function myFunction(lista)
 {
     inicializar();
-    var onUpdate=setInterval(
+    var onUpdate = setInterval(
     function()
     {
       pintarCuadro("vacio",position_x,position_y);
@@ -96,12 +96,17 @@ function myFunction(lista)
 
       if(esObstaculo(position_x,position_y))
       {
-        alert("obstaculo");
+        alert("Pucha! perdiste has chocado con un obstaculo!");
+        window.clearInterval(onUpdate);
+        inicializar();
       }
 
       if(esMeta(position_x,position_y))
       {
-        alert("meta");
+        alert("Siiii ganaste! ahora intentalo en el siguiente nivel");
+        window.clearInterval(onUpdate);
+        current_level++;
+        inicializar();
       }
 
       pos++;
@@ -221,7 +226,7 @@ function limpiarPantalla()
     y++;
   }
   var i=0;
-  while(i<2)
+  while(i<obstaculos_x.length && obstaculos_x.length!=0)
   {
     pintarCuadro("obstaculo",obstaculos_x[i],obstaculos_y[i]);
     i++;
@@ -232,6 +237,9 @@ function limpiarPantalla()
 
 function pintarCuadro(tipo,col,row)
 {
+  if(col<0 || col>4
+     || row<0 || col>4)
+    return;
   var table = document.getElementById("myTable");
   var columna = document.getElementById("myTable").rows[row].cells;
   columna[col].innerHTML='<img src=img/'+tipo+'.png></img>';
@@ -239,8 +247,14 @@ function pintarCuadro(tipo,col,row)
 
 function esObstaculo(pos_x,pos_y)
 {
+  if(pos_x<0 || pos_x>4
+    || pos_y<0 || pos_y>4)
+  {
+    return true;
+  }
+
   var i=0;
-  while(i<2)
+  while(i<obstaculos_x.length)
   {
     if(pos_x==obstaculos_x[i] && pos_y==obstaculos_y[i])
     {
