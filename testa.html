@@ -1,0 +1,114 @@
+  <!DOCTYPE html>
+<html>
+<body>
+
+<table id="myTable" border="0">
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+<br>
+
+<button onclick="myFunction()">Try it</button>
+
+<script>
+var pos=0;
+
+var position_x=0;
+var position_y=0;
+function myFunction()
+{
+  var lista = new Array();
+  lista[0] = "derecha";
+  lista[1] = "derecha";
+  lista[2] = "abajo";
+  lista[3] = "abajo";
+  lista[4] = "abajo";
+  lista[5] = "izquierda";
+
+  limpiarPantalla();
+
+  setInterval(
+    function()
+    {
+      //limpiarPantalla();
+      pintarCuadro("vacio",position_x,position_y);
+      if(lista[pos]=="arriba")
+      {
+        position_y--;
+      }
+      if(lista[pos]=="abajo")
+      {
+        position_y++;
+      }
+      if(lista[pos]=="izquierda")
+      {
+        position_x--;
+      }
+      if(lista[pos]=="derecha")
+      {
+        position_x++;
+      }
+      pos++;
+      pintarCuadro("actual",position_x,position_y);
+    }
+  ,500);
+}
+
+function limpiarPantalla()
+{
+  var y=0;
+  while(y<5)
+  {
+  	pintarCuadro("vacio",0,y);
+  	pintarCuadro("vacio",1,y);
+  	pintarCuadro("vacio",2,y);
+  	pintarCuadro("vacio",3,y);
+  	pintarCuadro("vacio",4,y);
+    y++;
+  }
+}
+
+function pintarCuadro(tipo,col,row)
+{
+  var table = document.getElementById("myTable");
+  var columna = document.getElementById("myTable").rows[row].cells;
+  columna[col].innerHTML='<img src='+tipo+'.png></img>';
+}
+
+</script>
+
+</body>
+</html>

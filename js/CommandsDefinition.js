@@ -1,0 +1,17 @@
+//Definicion de Comandos
+var commands1 = [
+'MOVERDERECHA',
+'MOVERIZQUIERDA',
+'MOVERABAJO',
+'MOVERARRIBA',
+'REPETIR(de {0} a {1})',
+'MIENTRAS',
+'VAR',
+'SALTARDERECHA',
+'SALTARIZQUIERDA',
+'SALTARARRIBA',
+'SALTARABAJO',
+
+];
+
+
