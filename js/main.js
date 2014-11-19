@@ -8,55 +8,75 @@ var position_y=0;
 var obstaculos_x = new Array();
 var obstaculos_y = new Array();
 
+var coins_x = new Array();
+var coins_y = new Array();
+
+var coinsCount = 0;
+var coinsToGet = 0;
+
 var lista = new Array();
 
 var meta_x;
 var meta_y;
 
-var current_level=1;
+var current_level=6;
 
 var niveles = new Array();
 
-niveles[0] =  [0,0,0,1,0,0,3,0,
-              1,1,1,1,1,1,1,1,
-              1,0,1,1,1,0,1,0,
-              0,0,0,1,2,1,0,1];
+niveles[0] =  [0,1,0,1,0,0,1,2,
+              0,0,1,0,1,0,1,1,
+              0,1,0,1,0,1,1,1,
+              3,1,0,1,0,1,0,1];
 
 niveles[1] =  [3,0,0,0,0,0,0,0,
+              1,1,1,1,1,0,1,1,
+              1,0,1,0,1,0,1,0,
+              1,0,0,0,0,1,2,1];
+
+niveles[2] =  [0,0,0,1,0,1,0,1,
+              1,1,1,1,1,0,2,1,
+              1,0,1,0,1,0,1,0,
+              0,3,0,0,0,1,0,1];
+
+niveles[3] =  [1,0,1,1,2,0,0,0,
+              0,1,1,1,1,0,0,1,
+              1,0,1,0,1,0,1,0,
+              0,1,3,0,0,1,0,1];
+
+niveles[4] =  [2,1,0,1,0,1,0,0,
               1,1,1,1,1,0,0,1,
               1,0,1,0,1,0,1,0,
-              2,0,0,0,0,1,0,1];
+              1,0,0,3,0,1,0,1];
 
-niveles[2] =  [0,0,0,0,0,0,0,0,
+niveles[5] =  [2,1,4,1,4,1,4,1,
+              0,1,0,1,0,1,0,1,
+              1,0,4,4,1,0,1,0,
+              4,0,4,1,0,1,3,1];
+
+niveles[6] =  [0,1,4,0,1,0,1,4,
+              4,0,1,0,1,0,0,1,
+              1,4,1,0,4,2,1,0,
+              0,0,1,3,0,1,0,4];
+
+niveles[7] =  [4,0,0,3,4,1,4,0,
               1,1,1,1,1,0,0,1,
-              1,0,1,0,1,0,1,0,
-              2,0,0,0,0,1,0,1];
+              4,0,1,0,4,0,1,0,
+              1,0,0,1,0,1,2,1];
 
-niveles[3] =  [3,0,0,0,0,0,0,0,
-              1,1,1,1,1,0,0,1,
-              1,0,1,0,1,0,1,0,
-              2,0,0,0,0,1,0,1];
+niveles[8] =  [1,0,0,3,4,1,4,0,
+              4,1,4,1,0,0,4,1,
+              4,0,1,2,4,0,1,0,
+              1,0,0,1,0,1,4,1];
 
-niveles[4] =  [3,0,0,0,0,0,0,0,
-              1,1,1,1,1,0,0,1,
-              1,0,1,0,1,0,1,0,
-              2,0,0,0,0,1,0,1];
+niveles[9] =  [1,0,0,3,4,1,4,0,
+              0,1,0,1,0,0,4,1,
+              4,0,1,4,1,4,1,4,
+              1,0,4,1,0,1,4,2];
 
-niveles[5] =  [3,0,0,0,0,0,0,0,
-              1,1,1,1,1,0,0,1,
-              1,0,1,0,1,0,1,0,
-              2,0,0,0,0,1,0,1];
-
-niveles[6] =  [3,0,0,0,0,0,0,0,
-              1,1,1,1,1,0,0,1,
-              1,0,1,0,1,0,1,0,
-              2,0,0,0,0,1,0,1];
-
-niveles[7] =  [3,0,0,0,0,0,0,0,
-              1,1,1,1,1,0,0,1,
-              1,0,1,0,1,0,1,0,
-              2,0,0,0,0,1,0,1];
-
+niveles[10] = [0,1,4,1,0,0,1,2,
+              0,4,1,4,1,4,1,1,
+              0,1,4,1,0,1,1,1,
+              3,1,4,1,0,1,0,1];
 //Commands Definition----------------------
 
 //Definicion de Comandos o funciones 
@@ -135,7 +155,8 @@ function leerComandos(){
 }
 function asignarComandos(comando, instruccion){
 
-          //var count = 0;
+
+          
           var commandStr = instruccion;
           var start_pos = commandStr.indexOf('(') + 1;
           var end_pos = commandStr.indexOf(')',start_pos);
@@ -176,12 +197,8 @@ function validarComando(instruccion, i){
 }
 
 function goGuco(posActual) {
-  pintarCuadro("actual",position_x,position_y);
-  
- // var onUpdate = setInterval(
-   // function()
-    //{
-      
+      pintarCuadro("actual",position_x,position_y);  
+      esCoin(position_x,position_y);
       if(esObstaculo(position_x,position_y))
       {
         alert("Pucha! perdiste has chocado con un obstaculo!");
@@ -192,21 +209,37 @@ function goGuco(posActual) {
 
       if(esMeta(position_x,position_y))
       {
+         if(coinsCount < coinsToGet)
+            {
+          alert("Pucha! llegaste a la meta pero no has recojido todas las plantas!");
+          window.clearInterval(onUpdate);
+          lista = new Array();
+          inicializar(); 
+          }else{
         alert("Siiii ganaste! ahora intentalo en el siguiente nivel");
         window.clearInterval(onUpdate);
         current_level++;
         lista = new Array();
         inicializar();
       }
+      }
     
       if(posActual == lista.length - 1){
-        if(esMeta(position_x,position_y))
+        if(esMeta(position_x,position_y) )
         {
+          if(coinsCount < coinsToGet)
+          {
+          alert("Pucha! llegaste a la meta pero no has recojido todas las plantas!");
+          window.clearInterval(onUpdate);
+          lista = new Array();
+          inicializar(); 
+          }else{
           alert("Siiii ganaste! ahora intentalo en el siguiente nivel");
           window.clearInterval(onUpdate);
           lista = new Array();        
           current_level++;
           inicializar();
+        }
         }else
         {
           alert("Pucha! perdiste no has llegado a la meta!");
@@ -221,6 +254,12 @@ function goGuco(posActual) {
 function inicializar()
 {
   pos=0;
+  obstaculos_x = new Array();
+  obstaculos_y = new Array();
+  coins_x = new Array();
+  coins_y = new Array();
+  coinsCount = 0;
+  coinsToGet = 0;
   initLevel(current_level);
 }
 
@@ -254,147 +293,7 @@ function myFunction()
 
 function initLevel(level)
 {
-  if(level==1)
-  {
-    position_x=2;
-    position_y=0;
-		meta_x=2;
-		meta_y=2;
-  }
 
-  if(level==2)
-  {
-    position_x=0;
-    position_y=0;
-		meta_x=2;
-		meta_y=2;
-
-    obstaculos_x[0] = 1;
-    obstaculos_y[0] = 2;
-
-    obstaculos_x[1] = 3;
-    obstaculos_y[1] = 2;
-  }
-
-  if(level==3)
-  {
-    position_x=0;
-    position_y=0;
-
-		meta_x=7;
-		meta_y=3;
-
-    obstaculos_x[0] = 1;
-    obstaculos_y[0] = 0;
-
-    obstaculos_x[1] = 1;
-    obstaculos_y[1] = 2;
-
-    obstaculos_x[2] = 3;
-    obstaculos_y[2] = 2;
-
-    obstaculos_x[3] = 3;
-    obstaculos_y[3] = 3;
-
-    obstaculos_x[4] = 3;
-    obstaculos_y[4] = 0;
-
-    obstaculos_x[5] = 3;
-    obstaculos_y[5] = 1;
-  }
-
-  if(level==4)
-  {
-    position_x=2;
-    position_y=2;
-		meta_x=6;
-		meta_y=1;
-
-    obstaculos_x[0] = 2;
-    obstaculos_y[0] = 0;
-
-    obstaculos_x[1] = 1;
-    obstaculos_y[1] = 1;
-
-    obstaculos_x[2] = 3;
-    obstaculos_y[2] = 3;
-
-    obstaculos_x[3] = 5;
-    obstaculos_y[3] = 3;
-
-    obstaculos_x[4] = 5;
-    obstaculos_y[4] = 2;
-
-    obstaculos_x[5] = 5;
-    obstaculos_y[5] = 1;
-
-    obstaculos_x[6] = 5;
-    obstaculos_y[6] = 1;
-  }
-
-  if(level==5)
-  {
-    position_x=2;
-    position_y=0;
-		meta_x=2;
-		meta_y=3;
-
-    obstaculos_x[0] = 1;
-    obstaculos_y[0] = 1;
-
-    obstaculos_x[1] = 2;
-    obstaculos_y[1] = 1;
-
-    obstaculos_x[2] = 3;
-    obstaculos_y[2] = 1;
-
-    obstaculos_x[3] = 1;
-    obstaculos_y[3] = 2;
-
-    obstaculos_x[4] = 3;
-    obstaculos_y[4] = 2;
-
-    obstaculos_x[5] = 1;
-    obstaculos_y[5] = 3;
-
-    obstaculos_x[6] = 3;
-    obstaculos_y[6] = 3;
-
-    obstaculos_x[7] = 3;
-    obstaculos_y[7] = 3;
-
-    obstaculos_x[8] = 2;
-    obstaculos_y[8] = 2;
-
-    obstaculos_x[9] = 3;
-    obstaculos_y[9] = 1;
-
-    obstaculos_x[9] = 3;
-    obstaculos_y[9] = 1;
-
-    obstaculos_x[10] = 4;
-    obstaculos_y[10] = 1;
-
-    obstaculos_x[11] = 5;
-    obstaculos_y[11] = 1;
-
-    obstaculos_x[12] = 6;
-    obstaculos_y[12] = 1;
-
-
-    obstaculos_x[13] = 4;
-    obstaculos_y[13] = 2;
-
-    obstaculos_x[14] = 5;
-    obstaculos_y[14] = 2;
-
-    obstaculos_x[15] = 6;
-    obstaculos_y[15] = 2;
-
-    obstaculos_x[16] = 6;
-    obstaculos_y[16] = 3;
-
-  }
   limpiarPantalla();
 }
 
@@ -443,6 +342,11 @@ function makeLevels(level)
         obstaculos_x.push(fila);
         obstaculos_y.push(col);
         pintarCuadro("obstaculo",fila,col);
+      }else if(b == 4){
+        coins_x.push(fila);
+        coins_y.push(col);
+        coinsToGet++;
+        pintarCuadro("coin",fila,col);
       }
       fila++;
       if(i==7 || i == 15 ||  i == 23 || i == 31)
@@ -450,9 +354,7 @@ function makeLevels(level)
         fila = 0;        
         col++;
       }
-     // fila++;
-
-      
+ 
    }; 
 }
 
@@ -485,7 +387,24 @@ function esObstaculo(pos_x,pos_y)
   }
   return false;
 }
-
+function esCoin(pos_x,pos_y)
+{ 
+if(pos_x<0 || pos_x>7
+    || pos_y<0 || pos_y>4)
+  {
+    return true;
+  }
+  var i=0;
+  while(i<coins_x.length)
+  {
+    if(pos_x==coins_x[i] && pos_y==coins_y[i])
+    {
+      coinsCount++;
+    }
+    i++;
+  }
+  
+}
 function esMeta(pos_x,pos_y)
 {
   return pos_x==meta_x && pos_y==meta_y;
