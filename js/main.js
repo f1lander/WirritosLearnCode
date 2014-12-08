@@ -21,6 +21,8 @@ var meta_y;
 
 var current_level=6;
 
+var jump;
+
 var niveles = new Array();
 
 niveles[0] =  [0,1,0,1,0,0,1,2,
@@ -104,20 +106,24 @@ function MOVERIZQUIERDA(){
 //Funciones para saltar --------------------
 
 function SALTARARRIBA(){
+  jump.play();
   position_y -= 2 
  
 }
 //Funcion para Mover Abajo
 function SALTARABAJO(){
+  jump.play();
   position_y += 2; 
     
 }
 //Funcion para Mover Derecha
 function SALTARDERECHA(){
+  jump.play();
   position_x += 2;    
 }
 //Funcion para Mover Izquierda
 function SALTARIZQUIERDA(){
+  jump.play();
   position_x -= 2;   
 }
 
@@ -130,7 +136,15 @@ function init(){
   $.getScript( "js/CommandsDefinition.js", function() {
     console.log( "Load was performed." );
     });
+  $.getScript( "js/howler.js", function() {
+    console.log( "Load was performed." );
+    });
+  $.getScript( "js/howler.min.js", function() {
+    console.log( "Load was performed." );
+    });
     inicializar();
+    jump = new Howl({urls: ['media/Jump2.wav']});
+    
 }
 
 
@@ -155,8 +169,6 @@ function leerComandos(){
 }
 function asignarComandos(comando, instruccion){
 
-
-          
           var commandStr = instruccion;
           var start_pos = commandStr.indexOf('(') + 1;
           var end_pos = commandStr.indexOf(')',start_pos);
@@ -187,14 +199,50 @@ function validarComando(instruccion, i){
 
     var inst = instruccion.split('(')[0].toUpperCase();
       //Aqui se verifica si en el arreglo de comandos se encuentra el comando evaluado;
-   if ($.inArray(inst.toUpperCase().trim(), commands1) != -1){ 
+   /*if ($.inArray(inst.toUpperCase().trim(), commands1) != -1){ 
         asignarComandos($.inArray(inst.toUpperCase().trim(), commands1), instruccion, i);
+      return true;
+    }*/
+//Test Garifuna
+     if (findCommand(inst.toUpperCase().trim())){ 
+        asignarComandos(findCommand(inst.toUpperCase().trim()), instruccion);
       return true;
     }
    
    $('#dangerMsj').show();
    return false;
 }
+
+function findCommand(command){
+  var result = false;
+   for(var i = 0; i < principalCommands.length; i++) {
+      if(principalCommands[i].com == command)
+      {
+        result = command;
+        break;
+      }
+  }
+
+   for(var i = 0; i < garifunaCommands.length; i++)  {
+    if(garifunaCommands[i].com == command)
+    {
+      var _idp = garifunaCommands[i].idP;
+      for(var j = 0; j < principalCommands.length; j++) {
+        if(principalCommands[j].idP == _idp)
+        {
+          result = principalCommands[j].com;
+          break;
+        }
+      }
+      if(!result)
+        break;
+
+    }
+  }
+
+  return result;
+}
+
 
 function goGuco(posActual) {
       pintarCuadro("actual",position_x,position_y);  
@@ -274,7 +322,8 @@ function myFunction()
       
      // for (var i = 0; i <= lista.length; i++) {
       //llama el metodo que corresponda Mover: Arriba, abajo, derecha e izquierda
-        var a = commands1[lista[pos].Comando].toUpperCase();
+       // var a = commands1[lista[pos].Comando].toUpperCase();
+        var a = lista[pos].Comando.toUpperCase();
 
         window[a](); 
 
