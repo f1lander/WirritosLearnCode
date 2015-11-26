@@ -3,9 +3,16 @@
 	color: #FFF;
 }
  body {
-    background-color: #242C30;
+    background-color: #666666;
     color: #FFF;
+    font-family:  'Lucida Console', 'Lucida Sans Typewriter', monaco, 'Bitstream Vera Sans Mono', monospace;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
 }
 .modal-backdrop {
    background-color: #242C30;
 }
+
