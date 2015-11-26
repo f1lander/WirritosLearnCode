@@ -37,7 +37,7 @@
 </head>
 
 <body>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -47,15 +47,15 @@
       <div class="modal-body" >
         <font color="black">
         <p>
-        Escribe el comando "moverderecha();" para mover a robo a la derecha</br>
-        Escribe el comando "moverizquierda();" para mover el robo a la izquierda</br>
-        Escribe el comando "moverabajo();" para mover el robo a la abajo</br>
-        Escribe el comando "moverarriba();" para mover el robo a la arriba</br>
+        Escribe el comando <strong>"moverDerecha()"</strong> o en garífuna "ouweren()" para mover a robo a la derecha</br>
+        Escribe el comando "moverIzquierda()" o en garífuna "iñun()" para mover a robo a la izquierda</br>
+        Escribe el comando "moverAbajo()" o en garífuna "unabu()" para mover a robo a la abajo</br>
+        Escribe el comando "moverArriba()" o en garífuna "bouna()" para mover a robo a la arriba</br>
         </br>
-         Escribe el comando "SaltarDerecha();" para saltar a la derecha</br>
-        Escribe el comando "Saltarquierda();" para saltar a la izquierda</br>
-        Escribe el comando "SaltarAbajo();" para saltar abajo</br>
-        Escribe el comando "SaltarArriba();" para saltar arriba</br>
+        Escribe el comando "SaltarDerecha()" o en garífuna "achubaraOuweren()" para saltar a la derecha</br>
+        Escribe el comando "Saltarquierda()" o en garífuna "achubaraIñun()" para saltar a la izquierda</br>
+        Escribe el comando "SaltarAbajo()" o en garífuna "achubaraUnabu()" para saltar abajo</br>
+        Escribe el comando "SaltarArriba()" o en garífuna "achubaraUnabu()" para saltar arriba</br>
         </p>
         </font> 
       </div>
@@ -67,48 +67,30 @@
   </div>
 </div>
 
-<div class="container">
-	<div class="row">
-      
-		<div class="col-md-12 column">
-			<div>
-				<div class="form-inline">
-          <img src="img/logo.png">
-           <button class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#myModal">
-                                 Instrucciones
-                                </button> 
-				</div>	
-
-                               
-             </div>
-			<div class="row">
-                <div class="col-md-4 column">
+<div class="container-fluid">
+	<div class="row">                  
+    <div class="col-md-12">
+      <img src="img/logo.png">   
+			   <div class="row">
+            <div class="col-md-4">
                     <p>
 					             <span class="label label-success">Escribe tus comandos aqui</span>
                         </p>
-                     <div >
+                     <span>
                         <textarea type="text" class="form-control" placeholder="Ejemplo. moverderecha();" id="comandos" style="text-align: left;" rows="15" cols="60">
-                        </textarea>
-                     </div>
-                     <div class="row">
-                        <div class="form-inline">
-                     <div class="col-md-2">
-                        
-                               <button onclick="leerComandos();" class="btn btn-success btn-lg" >Ejecutar</button>
-                            
-                      </div> 
-                      </div>
-                       </div>
-                    <div>
+                        </textarea>                        
+                     </span>
                      <span id="dangerMsj" style="display: none" class="label label-danger">jueeee creo que escribiste mal tus comandos, prueba de nuevo!</span>
-                    </div>
-				</div>
-				<div class="col-md-8 column">
-           <p>
-					 <span class="label label-primary">Tus comandos en Acci&oacute;n!</span>
-          </p>
-                    
-                    <div id="output">
+                       <button type="button" onclick="leerComandos();" class="btn btn-block btn-success">
+                        Ejecutar
+                      </button> 
+                      <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">
+                        Instrucciones
+                      </button>                                     
+            </div>
+				    <div class="col-md-8">
+					     <span class="label label-primary">Tus comandos en Acci&oacute;n!</span>                        
+                 <div id="output">
                     <table id="myTable" border="0">
                               <tr>
                                 <td></td>
@@ -159,22 +141,15 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                            
+                                <td></td>                          
                     </table>
-<br>
-</div>
-				</div>
-				
-			</div>
-
-           <div>
-          
-           </div>
+                 </div>				          
+			      </div>	
+			   </div>          
 		</div>
 	</div>
 </div>
-    </body>
+</body>
 </html>
 <script>
 $(document).ready(function(){
