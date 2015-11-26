@@ -414,7 +414,7 @@ function pintarCuadro(tipo,col,row)
     return;
   var table = $("#myTable")[0];
   var columna =table.rows[row].cells;
-  columna[col].innerHTML='<img src=img/'+tipo+'.png></img>';
+  columna[col].innerHTML='<img class="img-responsive" src=img/'+tipo+'.png></img>';
 }
 
 function esObstaculo(pos_x,pos_y)
